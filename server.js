@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to the E-commerce Backend!');
 });
 
-app.use('api/v1/user', userRoutes);
+app.use('/api/v1/user', userRoutes);
 
 // Start the server
 app.listen(PORT, () => {
