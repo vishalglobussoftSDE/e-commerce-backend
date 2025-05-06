@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import userRoutes from './routes/users/user.route.js';
 import productRoutes from './routes/products/product.route.js';
 import connectDB from './DB/db.config.js';
@@ -8,7 +9,7 @@ dotenv.config();
 connectDB(); 
 const PORT = process.env.PORT || 5000;
 
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads')); // public access
