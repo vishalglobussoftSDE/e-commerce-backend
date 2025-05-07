@@ -2,34 +2,27 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    },
-    address: {
-      type: String,
-      default: "",
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 6,
-    },
+    firstName: String,
+    lastName: String,
+    email: { type: String, required: true, unique: true },
+    address: String,
+    password: { type: String, required: true },
+    cart: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product", // assumes you have Product model
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
+
 
 const User = mongoose.model("User", userSchema);
 export default User;

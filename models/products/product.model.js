@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import User from '../users/user.model.js'; 
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -35,6 +35,14 @@ const productSchema = new mongoose.Schema({
         min: 0,
         max: 5,
     },
+    userIds: [
+          {
+            userId: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "User", 
+            },
+          },
+        ],
 } , {
     timestamps: true,
 });

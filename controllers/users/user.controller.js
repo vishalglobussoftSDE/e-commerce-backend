@@ -1,5 +1,6 @@
 import User from "../../models/users/user.model.js";
 import jwt from 'jsonwebtoken';
+
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -26,6 +27,7 @@ export const signup = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error", error: error.message });
   }
 };
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -93,7 +95,7 @@ export const editUser = async (req, res) => {
         return res.status(400).json({ success: false, message: "New passwords do not match" });
       }
 
-      user.password = newPassword; 
+      user.password = newPassword;
     }
 
     await user.save();
@@ -114,4 +116,57 @@ export const editUser = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error", error: error.message });
   }
 };
+
+export const addToCart = async (req, res) => {
+  const userId = req.userId; // middleware se aata hai
+  const { productId, quantity } = req.body;
+
+  if (!productId || !quantity) {
+    return res.status(400).json({ message: "Product ID and quantity required" });
+  }
+
+  try {
+    const user = await User.findById(userId);
+
+    const existingItem = user.cart.find((item) =>
+      item.productId.toString() === productId
+    );
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      user.cart.push({ productId, quantity });
+    }
+
+    await user.save();
+
+    res.status(200).json({ message: "Product added to cart", cart: user.cart });
+  } catch (error) {
+    res.status(500).json({ message: "Error adding to cart", error: error.message });
+  }
+};
+
+export const  removeFromCart = async (req, res) => {
+
+  const userId = req.userId; // middleware se aata hai
+  const { productId } = req.body;
+
+  if (!productId) {
+    return res.status(400).json({ message: "Product ID required" });
+  }
+
+  try {
+    const user = await User.findById(userId);
+
+    user.cart = user.cart.filter(
+      (item) => item.productId.toString() !== productId
+    );
+
+    await user.save();
+
+    res.status(200).json({ message: "Product removed from cart", cart: user.cart });
+  } catch (error) {
+    res.status(500).json({ message: "Error removing from cart", error: error.message });
+  }
+}
 
