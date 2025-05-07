@@ -4,7 +4,6 @@ import cors from 'cors';
 import userRoutes from './routes/users/user.route.js';
 import productRoutes from './routes/products/product.route.js';
 import connectDB from './DB/db.config.js';
-import cors from 'cors';
 const app = express();
 dotenv.config();
 connectDB(); 
