@@ -119,7 +119,7 @@ export const editUser = async (req, res) => {
 
 export const addToCart = async (req, res) => {
   const userId = req.userId; // middleware se aata hai
-  const { productId, quantity } = req.body;
+  const { productId, quantity} = req.body;
 
   if (!productId || !quantity) {
     return res.status(400).json({ message: "Product ID and quantity required" });
@@ -170,3 +170,19 @@ export const  removeFromCart = async (req, res) => {
   }
 }
 
+export const getCartData = async (req, res) => {
+  const userId = req.userId; // middleware se aata hai
+
+  try {
+    const user = await User.findById(userId).populate("cart.productId");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    } 
+    // console.log(user.cart)
+    res.status(200).json({ cart: user.cart });
+  }
+
+  catch (error) {
+    res.status(500).json({ message: "Error fetching cart data", error: error.message });
+  }
+}
