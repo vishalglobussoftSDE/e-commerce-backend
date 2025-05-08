@@ -4,7 +4,7 @@ import path from 'path';
 // Storage location & filename
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // make sure this folder exists
+    cb(null, 'allUploads/'); // make sure this folder exists
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -12,6 +12,6 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage });
+const allUpload = multer({ storage });
 
-export default upload;
+export default allUpload;

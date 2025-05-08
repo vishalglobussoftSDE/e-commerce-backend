@@ -1,4 +1,6 @@
 import productModel from '../../models/products/product.model.js';
+import allProductModel from '../../models/products/allProduct.model.js';
+
 export const createProduct = async (req, res) => {
     try {
       const { name, description, price, category, stock } = req.body;
@@ -38,6 +40,45 @@ export const createProduct = async (req, res) => {
     }
   };
   
+  export const createAllProduct = async (req, res) => {
+    try {
+      const { name, description, price, category, stock } = req.body;
+  
+      if (!name || !description || !price || !category || !stock) {
+        return res.status(400).json({
+          success: false,
+          message: 'All fields are required.',
+        });
+      }
+  
+      const imageUrl = req.file ? `/allUploads/${req.file.filename}` : '';
+  
+      const product = new allProductModel({
+        name,
+        description,
+        price,
+        category,
+        stock,
+        images: imageUrl ? [imageUrl] : []
+      });
+  
+      const savedProduct = await product.save();
+  
+      res.status(201).json({
+        success: true,
+        message: 'Product created successfully',
+        product: savedProduct,
+      });
+    } catch (err) {
+      console.error('Error creating product:', err);
+      res.status(500).json({
+        success: false,
+        message: 'Server error while creating product',
+        error: err.message,
+      });
+    }
+  };
+
 
 export const getAllProducts = async (req, res) => {
   try {
