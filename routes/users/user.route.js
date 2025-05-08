@@ -1,4 +1,4 @@
-import { signup, login , editUser, addToCart, removeFromCart, getCartData} from "../../controllers/users/user.controller.js";
+import { signup, login , editUser, addToCart, removeFromCart, getCartData, placeOrder} from "../../controllers/users/user.controller.js";
 import { Router } from "express";
 import { verifyToken } from "../../middlewares/authMiddleware.js";
 
@@ -10,6 +10,7 @@ router.post("/edit", editUser);
 router.post("/add-cart", verifyToken, addToCart);
 router.delete("/remove-cart", verifyToken, removeFromCart);
 router.get("/get-cart-data" , verifyToken, getCartData);
-
+router.post("/place-order", verifyToken, placeOrder);
+// router.get("/get-orders", verifyToken, getOrders);
 
 export default router;

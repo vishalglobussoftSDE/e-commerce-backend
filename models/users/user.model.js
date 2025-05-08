@@ -19,6 +19,21 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    orders: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        quantity: Number,
+        orderedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+    
+    
   },
   { timestamps: true }
 );
