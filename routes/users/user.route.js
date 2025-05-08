@@ -14,4 +14,3 @@ router.post("/place-order", verifyToken, placeOrder);
 // router.get("/get-orders", verifyToken, getOrders);
 
 export default router;
-
