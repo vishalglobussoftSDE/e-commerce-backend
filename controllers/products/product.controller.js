@@ -1,7 +1,8 @@
 import productModel from '../../models/products/product.model.js';
+// import cloudinary from '../../config/cloudinary.config.js';
 export const createProduct = async (req, res) => {
     try {
-      const { name, description, price, category, stock } = req.body;
+      const { name, description, price, category, stock} = req.body;
   
       if (!name || !description || !price || !category || !stock) {
         return res.status(400).json({

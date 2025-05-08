@@ -186,3 +186,42 @@ export const getCartData = async (req, res) => {
     res.status(500).json({ message: "Error fetching cart data", error: error.message });
   }
 }
+
+export const placeOrder = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const user = await User.findById(userId);
+    if (!user || user.cart.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cart is empty or user not found',
+      });
+    }
+
+    // Transfer cart items to orders
+    const newOrders = user.cart.map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+      orderedAt: new Date(),
+    }));
+
+    user.orders.push(...newOrders);
+    user.cart = []; // Clear the cart
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Order placed successfully',
+      orders: user.orders,
+    });
+  } catch (error) {
+    console.error('Error placing order:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to place order',
+      error: error.message,
+    });
+  }
+};
