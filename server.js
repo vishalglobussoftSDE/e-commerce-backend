@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/users/user.route.js';
 import productRoutes from './routes/products/product.route.js';
+import contactRoutes from './routes/contact/contact.route.js';
 import connectDB from './DB/db.config.js';
 
 const app = express();
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/product', productRoutes);
+app.use('/api/v1/form', contactRoutes); 
 
 // Start the server
 app.listen(PORT, () => {
