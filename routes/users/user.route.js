@@ -12,4 +12,3 @@ router.delete("/remove-cart", verifyToken, removeFromCart);
 
 
 export default router;
-
